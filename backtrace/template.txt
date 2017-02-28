@@ -1,0 +1,27 @@
+// the partial solution a[0:k] (it's double close interval) has been determined
+// Initially, there's no position in a determined, so this empty partial solution is a[0:-1]
+bool finished = false;
+void backtrace(int a[], int k, Data input)
+{
+    if (finished)
+        return;
+
+    int c[MAX_CANDIDATE];
+    if (is_a_solution(a, k, input))
+    {
+        finished = true;
+        process_solution(a, k, input);
+    }
+    else
+    {
+        k ++;
+        // we're going to expand the node
+        int nCandidates;
+        construct_candidates(a, k, input, c, &nCandidates);
+        for (int i = 0; i < nCandidates; i++)
+        {
+            a[k] = c[i];
+            backtrace(a, k, input);
+        }
+    }
+}
